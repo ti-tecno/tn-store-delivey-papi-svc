@@ -1,0 +1,32 @@
+#%RAML 1.0
+title: tn-store-load-papi-svc
+types:
+  load: !include Types/load.raml
+traits:  
+ Secured: !include Traits/Secured_trait.raml
+/v1:
+  /loads:
+    is: [Secured]
+    post:
+      description: Este servicio permite crear el objeto load
+      body:
+        application/json:
+          type: load
+      responses:
+        201:
+          body:
+            application/json:
+              example: !include Examples/post_load.json
+    get:
+      queryParameters:
+        name:
+          type: string
+          required: false
+      description: Este servicio trae todas registrados en Db
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include Examples/get_load.json
+                
+                
