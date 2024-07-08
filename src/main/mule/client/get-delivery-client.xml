@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="ca6c7ab3-3653-4d79-9667-2ee0a848d2b6" basePath="/api" >
+		<http:request-connection host="tn-mongo-sapi.us-e2.cloudhub.io" port="80" />
+	</http:request-config>
+	<sub-flow name="get-delivery-clientSub_Flow" doc:id="a6a4edcc-b0d4-4b30-a7fb-8c8ecfa0a6d7" >
+		<http:request method="GET" doc:name="Request" doc:id="9de6fc4e-51b6-4518-a1c8-dbdc480ee3f2" config-ref="HTTP_Request_configuration" path="/v1/loads">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"client_secret" : attributes.headers.client_secret,
+	"client_id" : attributes.headers.client_id
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"name_load" : attributes.queryParams.name_load
+}]]]></http:query-params>
+		</http:request>
+	</sub-flow>
+</mule>

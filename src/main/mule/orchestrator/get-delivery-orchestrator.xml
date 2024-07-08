@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="get-delivery-orchestratorSub_Flow" doc:id="eb660db3-7600-4b27-872d-404f5708511d" >
+		<flow-ref doc:name="go to client" doc:id="082ff46d-876b-4d4a-b1e6-c1cb4e5030a9" name="get-delivery-clientSub_Flow"/>
+	</sub-flow>
+</mule>
