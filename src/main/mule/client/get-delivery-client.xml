@@ -9,12 +9,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	</http:request-config>
 	<sub-flow name="get-delivery-clientSub_Flow" doc:id="a6a4edcc-b0d4-4b30-a7fb-8c8ecfa0a6d7" >
 		<http:request method="GET" doc:name="Request" doc:id="9de6fc4e-51b6-4518-a1c8-dbdc480ee3f2" config-ref="HTTP_Request_configuration" path="/v1/loads">
-			<http:headers ><![CDATA[#[output application/java
----
-{
-	"client_secret" : attributes.headers.client_secret,
-	"client_id" : attributes.headers.client_id
-}]]]></http:headers>
 			<http:query-params ><![CDATA[#[output application/java
 ---
 {
