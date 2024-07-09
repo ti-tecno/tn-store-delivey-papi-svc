@@ -124,27 +124,9 @@ output application/json
         </error-handler>
     </flow>
     <flow name="get:\v1\loads:tn-store-load-papi-svc-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  message: "Sucsesfuly"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <flow-ref doc:name="go to handler" doc:id="a45a051b-3037-47cc-a286-038b17c5517b" name="get-delivery-handlerSub_Flow" />
     </flow>
     <flow name="post:\v1\loads:application\json:tn-store-load-papi-svc-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  message: "carga creada con exito"
-} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="go to handler" doc:id="2cac42e4-7bcd-4067-8ad9-782b13240318" name="post-delivery-handlerSub_Flow"/>
     </flow>
 </mule>

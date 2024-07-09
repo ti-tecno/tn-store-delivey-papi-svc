@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="get-delivery-handlerSub_Flow" doc:id="afebc941-2ed9-45ab-b1bf-5fa274b4afef" >
+		<ee:transform doc:name="Transform Message" doc:id="95b6d9ee-29fb-40b7-9c96-9bdd7c51a08e">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="query" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"name_load": attributes.queryParams.name_load
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="go to orchestrator" doc:id="e248a2ef-6416-4ec7-8b0e-ba902e884a39" name="get-delivery-orchestratorSub_Flow"/>
+	</sub-flow>
+</mule>
