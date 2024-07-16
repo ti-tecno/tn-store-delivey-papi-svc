@@ -2,11 +2,8 @@
 title: tn-store-load-papi-svc
 types:
   load: !include Types/load.raml
-traits:  
- Secured: !include Traits/Secured_trait.raml
 /v1:
   /loads:
-    is: [Secured]
     post:
       description: Este servicio permite crear el objeto load
       body:

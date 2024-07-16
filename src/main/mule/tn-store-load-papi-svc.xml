@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-    <http:listener-config name="tn-store-load-papi-svc-httpListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="8081" />
-    </http:listener-config>
+    
     <apikit:config name="tn-store-load-papi-svc-config" api="tn-store-load-papi-svc.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="tn-store-load-papi-svc-main">
         <http:listener config-ref="tn-store-load-papi-svc-httpListenerConfig" path="/api/*">
@@ -127,6 +125,6 @@ output application/json
         <flow-ref doc:name="go to handler" doc:id="a45a051b-3037-47cc-a286-038b17c5517b" name="get-delivery-handlerSub_Flow" />
     </flow>
     <flow name="post:\v1\loads:application\json:tn-store-load-papi-svc-config">
-		<flow-ref doc:name="go to handler" doc:id="2cac42e4-7bcd-4067-8ad9-782b13240318" name="post-delivery-handlerSub_Flow"/>
+        <flow-ref doc:name="go to handler" doc:id="2cac42e4-7bcd-4067-8ad9-782b13240318" name="post-delivery-handlerSub_Flow" />
     </flow>
 </mule>
