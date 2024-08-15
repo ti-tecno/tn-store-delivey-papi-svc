@@ -1,0 +1,6 @@
+papi:
+  delivery:
+    get-products:
+      host: tn-mongo-sapi-svc.us-e2.cloudhub.io
+      path: /v1/inventories/store/{store_id}/products/{product_id}
+      protocol: HTTP

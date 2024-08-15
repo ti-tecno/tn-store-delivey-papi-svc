@@ -9,7 +9,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 <http:listener-config name="tn-store-load-papi-svc-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="8081" />
     </http:listener-config>
-<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="bbb2aa02-c563-4f71-886c-5e0022f68d8b" basePath="/api" >
-		<http:request-connection host="tn-mongo-sapi.us-e2.cloudhub.io"/>
+<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="bbb2aa02-c563-4f71-886c-5e0022f68d8b" basePath="/api">
+		<http:request-connection host="${papi.delivery.get-products.host}" protocol="${papi.delivery.get-products.protocol}"/>
 	</http:request-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="532f9a69-cf10-4dfb-9efd-62ecce202cf1" file="config\\${env}-properties.yaml" />
 </mule>

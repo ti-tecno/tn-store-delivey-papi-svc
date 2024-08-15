@@ -5,29 +5,42 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="post-delivery-orchestratorSub_Flow" doc:id="f6b01f32-fd48-45a7-bb6f-071390ab532b" >
-		<flow-ref doc:name="go database" doc:id="c7253b3b-a7c1-44a8-abee-4c190b571740" name="get-inventory-clientSub_Flow"/>
-		<choice doc:name="Choice" doc:id="0ec1882e-622d-413a-a673-843081dd9b24" >
-			<when expression="#[payload == []]">
-				<ee:transform doc:name="Transform Message" doc:id="ccd38eca-b76d-455c-aa79-98906ff5cba9">
+		<foreach doc:name="For Each" doc:id="50ad6c77-db49-4eca-bb85-978bea211a3f" collection="#[vars.load.product]">
+			<try doc:name="Try" doc:id="21e0a958-96a3-4879-8326-3ceee98d6d89">
+						<ee:transform doc:name="Transform Message" doc:id="ce72689a-e96c-41dc-801d-7d3ac495d5a6">
+					<ee:message />
+					<ee:variables>
+						<ee:set-variable variableName="uriParams"><![CDATA[output application/json
+---
+{
+	"product_id" : payload.product_id,
+	"store_id" : payload.store_id
+}]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<flow-ref doc:name="go database" doc:id="c7253b3b-a7c1-44a8-abee-4c190b571740" name="get-product_id-clientSub_Flow" />
+				<error-handler>
+							<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="466f50ed-5704-4a82-9d0e-0f77b3672f18">
+								<ee:transform doc:name="Transform Message" doc:id="9b615d94-7ffe-442f-94ec-35fa501cd18a">
+									<ee:message>
+									</ee:message>
+									<ee:variables>
+										<ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
+									</ee:variables>
+								</ee:transform>
+								<ee:transform doc:name="Transform Message" doc:id="ccd38eca-b76d-455c-aa79-98906ff5cba9">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-"message": "non-existent product "]]></ee:set-payload>
+"message": "non-existent product " ++ payload.product_id]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-			</when>
-			<otherwise >
-				<ee:transform doc:name="Transform Message" doc:id="ae083bcc-dc51-493d-ae36-6354b46f84d1" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-vars.load]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<flow-ref doc:name="go to client" doc:id="97ea9128-fb5e-433b-8ef9-c955514da75a" name="post-delivery-cllientSub_Flow" />
-			</otherwise>
-		</choice>
+							</on-error-propagate>
+						</error-handler>
+					</try>
+		</foreach>
+		<logger level="INFO" doc:name="Logger" doc:id="034350c2-09b4-40bc-a001-b4de3af194e7" message="Existen todos"/>
+		<flow-ref doc:name="go to client" doc:id="97ea9128-fb5e-433b-8ef9-c955514da75a" name="post-delivery-cllientSub_Flow" />
 	</sub-flow>
 </mule>

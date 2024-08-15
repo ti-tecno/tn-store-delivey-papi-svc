@@ -5,23 +5,40 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	
-	<sub-flow name="get-inventory-clientSub_Flow" doc:id="a6a4edcc-b0d4-4b30-a7fb-8c8ecfa0a6d7" >
-		<http:request method="GET" doc:name="Request" doc:id="44e18ba1-5970-4d20-bb40-747f798cca9f" config-ref="HTTP_Request_configuration" path="/v1/inventories">
+	<sub-flow name="get-delivery-clientSub_Flow1" doc:id="60ed9d20-30fd-4f09-bcfd-01153315159a" >
+		<http:request method="GET" doc:name="Request" doc:id="583a4b91-9620-4041-83f3-6e1d16499473" config-ref="HTTP_Request_configuration" path="${papi.delivery.get-products.path}">
 			<http:query-params ><![CDATA[#[output application/java
 ---
 {
-	"product" : payload.product
+	 responsible_id : attributes.queryParams.responsible_id
 }]]]></http:query-params>
 		</http:request>
 	</sub-flow>
-	<sub-flow name="get-delivery-clientSub_Flow1" doc:id="60ed9d20-30fd-4f09-bcfd-01153315159a" >
-		<http:request method="GET" doc:name="Request" doc:id="583a4b91-9620-4041-83f3-6e1d16499473" config-ref="HTTP_Request_configuration" path="/v1/loads">
-			<http:query-params ><![CDATA[#[output application/java
+	<sub-flow name="get-product_id-clientSub_Flow" doc:id="e430b257-1baa-430a-a44b-000cc0ece7dc" >
+		<ee:transform doc:name="Transform Message" doc:id="14035257-f0fb-4734-9ef6-569e208f2a6c" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="uriParams" ><![CDATA[output application/java
 ---
 {
-	responsible : attributes.queryParams.responsible
-}]]]></http:query-params>
+	"product_id" : payload.product_id,
+	"store_id" : payload.store_id
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<http:request method="GET" doc:name="Request" doc:id="5884f35f-7f58-4368-8cb2-d399f2b4b6c6" config-ref="HTTP_Request_configuration" path="${papi.delivery.get-products.path}">
+			<http:uri-params ><![CDATA[#[output application/json
+---
+vars.uriParams]]]></http:uri-params>
 		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="099880bf-7177-4dbe-a1be-3114ee89735b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</sub-flow>
 </mule>
